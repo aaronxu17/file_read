@@ -14,6 +14,7 @@ content=file.readlines()
 
 numsum=0.0
 numcount=0
+
 def isNumber(number):
     try:
         float(number)
