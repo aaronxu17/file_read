@@ -24,19 +24,19 @@ if os.path.isfile(filename) and os.access(filename,os.R_OK):
     else:
         file = open(filename)
         content=file.readlines()
-        numsum=0.0
+        numsum=0
         numcount=0
 
         for line in content:
             for item in line.split():
-                if numsum < sys.float_info.max:
+                try:
                     item_is_number = isNumber(item)
                     while item_is_number:
                         numsum+=float(item)
                         numcount+=1
                         item_is_number=False
-                else:
-                    sys.exit("Sum of numbers exceeds the range of float number!")
+                except OverflowError, err:
+                    print 'Overflowed ', numsum, err
                     
         print numsum
         print numcount      
