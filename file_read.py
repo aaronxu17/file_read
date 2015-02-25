@@ -22,25 +22,30 @@ if os.path.isfile(filename) and os.access(filename,os.R_OK):
     if float(os.path.getsize(filename))/(1024*1024)> Max_File_Size:
         print "File is too large!"
     else:
-        file = open(filename)
-        content=file.readlines()
-        numsum=0
-        numcount=0
+        try:
+            file = open(filename)
+        except IOError:
+            print 'cannot open file',filename
+        else:
+            content=file.readlines()
+            numsum= 0.0
+            numcount=0
 
-        for line in content:
-            for item in line.split():
-                try:
+            for line in content:
+                for item in line.split():   
                     item_is_number = isNumber(item)
                     while item_is_number:
-                        numsum+=float(item)
-                        numcount+=1
-                        item_is_number=False
-                except OverflowError, err:
-                    print 'Overflowed ', numsum, err
-                    
-        print numsum
-        print numcount      
+                        try:
+                            numsum+=float(item)
+                        except:
+                            print 'Overflowed! '
+                        else:    
+                            numcount+=1
+                            item_is_number=False
 
+                    
+            print numsum
+            print numcount    
 else:
     print "Cannot manipulate the file"
             
